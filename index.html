@@ -12,6 +12,7 @@
 
     body {
       margin: 0;
+      padding: 0 1rem;
       background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
       font-family: 'Inter', sans-serif;
       color: white;
@@ -20,23 +21,23 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       position: relative;
+      text-align: center;
     }
 
     h1 {
       font-family: 'Great Vibes', cursive;
-      font-size: 3.5rem;
+      font-size: clamp(2rem, 5vw, 3.5rem);
       color: #ff3cac;
-      text-shadow: 0 0 20px #ff3cac, 0 0 30px #ff66aa;
-      margin-bottom: 0.2em;
+      text-shadow: 0 0 15px #ff3cac, 0 0 25px #ff66aa;
+      margin: 0.2em 0;
       animation: fadeIn 2s ease-in-out;
     }
 
     p {
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: #fceaff;
-      text-align: center;
       max-width: 500px;
       margin-bottom: 1em;
       line-height: 1.6;
@@ -44,8 +45,9 @@
     }
 
     .svg-container {
-      width: 220px;
+      width: clamp(160px, 30vw, 220px);
       z-index: 2;
+      margin: 1rem 0;
     }
 
     svg {
@@ -105,11 +107,25 @@
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0 1rem;
+      }
+
+      .svg-container {
+        width: 150px;
+      }
+
+      h1 {
+        line-height: 1.2;
+      }
+    }
   </style>
 </head>
 <body>
   <canvas id="confetti"></canvas>
-  <h1>Selamat Ulang Tahun, Sayang! 😘</h1>
+  <h1>Selamat Ulang Tahun, Sayang! 😘😘😘</h1>
   <div class="svg-container">
     <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
       <path d="M70 40 Q100 0 130 40 Q110 20 90 40 Z" fill="#222" />
@@ -125,6 +141,7 @@
     </svg>
   </div>
   <h1>Hamidah Nur Nasution, S.Pd</h1>
+  <h1>24 juni 2025</h1>
 
   <script>
     const canvas = document.getElementById('confetti');
@@ -184,7 +201,6 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
-    
   </script>
 </body>
 </html>
