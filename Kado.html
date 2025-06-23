@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kado Ajaib 🎁</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at center, #0f0f1a, #000);
+      font-family: 'Inter', sans-serif;
+      color: white;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .kado {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(to top, #ff6699, #ff99cc);
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+      animation: fadeIn 2s ease-out;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 2;
+    }
+
+    .kado:hover {
+      transform: scale(1.05);
+    }
+
+    .kado::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 140px;
+      background: white;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .kado::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 35%;
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #fff;
+    }
+
+    .message {
+      opacity: 0;
+      max-width: 400px;
+      text-align: center;
+      font-size: 1.3rem;
+      margin-top: 30px;
+      line-height: 1.8;
+      color: #ffddf4;
+      font-weight: 500;
+      animation: fadeInMsg 2s ease-out forwards;
+      display: none;
+      z-index: 2;
+    }
+
+    @keyframes fadeInMsg {
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <div id="kado" class="kado" onclick="bukaKado()"></div>
+  <div id="message" class="message">
+  Tahunmu bertambah. Tapi adakah ruang dalam harimu untuk seseorang yang selalu hilang dalam waktumu? Aku tidak marah. Aku hanya luka, tapi terlalu sadar bahwa luka ini bukan penyakit melainkan warisan dari cinta yang tak selesai. Aku menuliskan ini bukan sebagai ucapan, tapi sebagai ziarah. Setiap bait adalah bunga, dan setiap metafora adalah dupa, untuk mengenang kemungkinan yang tak pernah jadi nyata. Karena mencintaimu, adalah upacara suci yang tak butuh saksi.
+  </div>
+
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let confetti = [];
+
+    // Ledakan confetti saat kado dibuka
+    function createExplosion(x, y) {
+      for (let i = 0; i < 80; i++) {
+        confetti.push({
+          x: x,
+          y: y,
+          r: Math.random() * 4 + 2,
+          dx: (Math.random() - 0.5) * 8,
+          dy: (Math.random() - 0.5) * 8,
+          life: 100,
+          color: `hsl(${Math.random() * 360}, 100%, 70%)`
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = confetti.length - 1; i >= 0; i--) {
+        const p = confetti[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        p.dy += 0.1; // gravity
+        p.life -= 1;
+
+        if (p.life <= 0) {
+          confetti.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+
+    function bukaKado() {
+      const box = document.getElementById('kado');
+      const msg = document.getElementById('message');
+
+      const rect = box.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      createExplosion(x, y);
+
+      box.style.display = 'none';
+      msg.style.display = 'block';
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+    
+      // redirect ke hal halaman-berikutnya
+  setTimeout(function() {
+    window.location.href = "Home.html"; 
+  }, 20000); 
+  </script>
+</body>
+</html>
