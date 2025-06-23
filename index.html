@@ -46,7 +46,6 @@
       background: transparent;
       filter: brightness(1.1) blur(0.4px);
     }
-
     .star {
       position: absolute;
       background: #fff;
@@ -59,7 +58,6 @@
       0% { transform: translateY(0); }
       100% { transform: translateY(-100vh); }
     }
-
     .balloon {
       position: absolute;
       width: 24px;
@@ -89,7 +87,6 @@
       10% { opacity: 1; }
       100% { transform: translateY(-130vh); opacity: 0.3; }
     }
-
     .scene {
       position: absolute;
       top: 50%;
@@ -127,24 +124,10 @@
       color: #e0e0e0;
       text-shadow: 0 0 6px rgba(0,0,0,0.3);
     }
-
-    .loading-text::after {
-      content: '';
-      display: inline-block;
-      width: 1ch;
-      animation: dots 1.5s steps(3, end) infinite;
-    }
-
-    @keyframes dots {
-      0%   { content: ''; }
-      33%  { content: '.'; }
-      66%  { content: '..'; }
-      100% { content: '...'; }
-    }
   </style>
 </head>
 <body>
-  <canvas id="matrixCanvas" class="matrix"></canvas>
+  <canvas id="matrixCanvas"></canvas>
   <div class="stars" id="stars"></div>
   <div class="balloons" id="balloons"></div>
 
@@ -160,61 +143,53 @@
 
   <div class="scene" id="scene3">
     <h1>Selamat Ulang Tahun, Sayang 🎉</h1>
-    <p>You all the best</p>
-  </div>
-
-  <div class="scene" id="scene4">
-    <h1>Kejutan Selanjutnya...</h1>
-    <p class="loading-text">Sebentar...</p>
+    <p>Semoga semua impianmu tercapai, dan senyummu tak pernah padam.</p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
-    const scenes = ['scene1', 'scene2', 'scene3', 'scene4'];
-    let current = 0;
-    let firstCycleDone = false;
-
     const showScene = (id) => {
       document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     };
 
-    const startTypedPoem = () => {
-      new Typed("#typed", {
-        strings: [
-          "Hai sayang...",
-          "Hari ini langit tampak biasa saja...",
-          "Mereka merayakanmu dengan tawa...",
-          "Waktu adalah pisau yang halus...",
-          "Apa gunanya kau bertambah dewasa...",
-          "Kau tersenyum di foto...",
-          "Tak ada ucapan dariku, hanya serangkaian kata..."
-        ],
-        typeSpeed: 40,
-        backSpeed: 15,
-        loop: false,
-        showCursor: false,
-        onComplete: () => {
-          setTimeout(loopScenes, 3000);
-        }
-      });
+    const sceneFlow = () => {
+      setTimeout(() => showScene('scene2'), 2500);
+      setTimeout(() => {
+        new Typed("#typed", {
+          strings: [
+            "Hari ini bukan sekadar tanggal di kalender,",
+            "Ini adalah perayaan keberadaanmu — yang indah seperti fajar pertama.",
+            "Hamidah, namamu lembut seperti angin yang mengusap hatiku,",
+            "Dalam dirimu, aku temukan arti rumah dan waktu yang berhenti.",
+            "Setiap senyummu menghangatkan yang beku dalam diriku,",
+            "Dan setiap tawamu menumbuhkan harapan yang bahkan waktu pun tak mampu layu.",
+            "Aku tahu dunia ini luas, namun semesta terasa kecil saat kita saling pandang,",
+            "Karena kau adalah pusatnya — dan aku, satelit yang selalu mengitarimu.",
+            "Ulang tahunmu bukan sekadar pertambahan usia,",
+            "Tapi bukti bahwa semesta mengulang hari ketika kamu diciptakan — penuh cinta.",
+            "Doaku bukan sekadar ucapan, tapi lorong harapan,",
+            "Agar kamu selalu sehat, bahagia, dan dikelilingi cinta yang tak pernah surut.",
+            "Jika waktu adalah pena dan hidup adalah lembar,",
+            "Maka bersamamu adalah kisah paling indah yang ingin kutulis berulang kali.",
+            "Selamat ulang tahun, Hamidah tercinta ❤️"
+          ],
+          typeSpeed: 40,
+          backSpeed: 0,
+          loop: false,
+          showCursor: false,
+          onComplete: () => {
+            setTimeout(() => {
+              showScene('scene3');
+              setTimeout(() => {
+                sceneFlow(); // LOOP BACK
+              }, 6000);
+            }, 1500);
+          }
+        });
+      }, 3000);
     };
-
-    const loopScenes = () => {
-      current = (current + 1) % scenes.length;
-      showScene(scenes[current]);
-
-      if (scenes[current] === 'scene2' && !firstCycleDone) {
-        firstCycleDone = true;
-        startTypedPoem();
-      } else {
-        setTimeout(loopScenes, 4000);
-      }
-    };
-
-    window.addEventListener("load", () => {
-      setTimeout(loopScenes, 2500);
-    });
+    window.addEventListener("load", sceneFlow);
 
     // Stars
     const starsContainer = document.getElementById('stars');
@@ -246,17 +221,14 @@
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = new Array(columns).fill(1);
-
     function drawMatrixRain() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ffffff";
       ctx.font = fontSize + "px monospace";
-
       for (let i = 0; i < drops.length; i++) {
         const text = Math.random() > 0.5 ? "0" : "1";
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -266,7 +238,6 @@
         drops[i]++;
       }
     }
-
     setInterval(drawMatrixRain, 50);
   </script>
 </body>
